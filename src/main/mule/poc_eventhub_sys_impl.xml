@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:azure-storage="http://www.mulesoft.org/schema/mule/azure-storage"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:salesforce-pub-sub="http://www.mulesoft.org/schema/mule/salesforce-pub-sub" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce-pub-sub http://www.mulesoft.org/schema/mule/salesforce-pub-sub/current/mule-salesforce-pub-sub.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/azure-storage http://www.mulesoft.org/schema/mule/azure-storage/current/mule-azure-storage.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="5a6f00ae-9076-4cf9-8c7a-5b517f2080fe" >
+		<salesforce:basic-connection username="tanumoygiri1990@techcloud.com" password="Abcd!2345" securityToken="k9CL39rHr9Qy1jojrsvbeMA5" />
+	</salesforce:sfdc-config>
+	<flow name="poc_eventhub_sys_implFlow" doc:id="af295477-c76b-4cd6-aaaa-ab5be5234ef0" >
+		<salesforce:subscribe-channel-listener streamingChannel="/event/Customer_Event__e" doc:name="Subscribe channel listener" doc:id="81ec753c-d57d-4738-ab21-b1c72758afac" config-ref="Salesforce_Config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7fe61325-fb8d-462e-b801-17d770b53c44" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="92ad0ad4-2eaf-46df-8c99-3c15a749d092" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
